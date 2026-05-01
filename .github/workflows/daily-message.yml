@@ -15,4 +15,4 @@ jobs:
           curl -H "Content-Type: application/json" \
           -X POST \
 -d '{"content": "🎮 Today on stream: Stardew Valley + Mods 🌱✨ Come vibe!"}' \
-${{ secrets.WEBHOOK_URL }}
+${{ secrets.TEST }}
