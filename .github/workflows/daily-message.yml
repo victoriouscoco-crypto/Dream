@@ -1,18 +1,23 @@
-name: Daily Stream Message
+name: Daily Webhook Post
 
 on:
   schedule:
-    - cron: '0 16 * * *'  # runs daily at 16:00 UTC (adjust this)
-  workflow_dispatch: # lets you run it manually too
+    - cron: '0 9 * * *'  
+  workflow_dispatch:
 
 jobs:
-  send-message:
+  send:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - name: Send webhook message
         run: |
+          content=$(cat message.txt)
+
           curl -H "Content-Type: application/json" \
           -X POST \
--d '{"content": "🎮 Today on stream: Stardew Valley + Mods 🌱✨ Come vibe!"}' \
-${{ secrets.TEST }}
+          -d "{\"content\": \"${content}\"}" \
+          ${{ secrets.TEST }}
