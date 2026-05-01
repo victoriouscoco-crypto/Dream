@@ -21,8 +21,10 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Send to Discord webhook
-        run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d "{\"content\": \"${{ message.txt }}\"}" \
-          ${{ secrets.WEBHOOK_URL }}
+  run: |
+    content="${{ steps.msg.outputs.content }}"
+
+    curl -H "Content-Type: application/json" \
+    -X POST \
+    -d "{\"content\": \"$content\"}" \
+    ${{ secrets.WEBHOOK_URL }}
