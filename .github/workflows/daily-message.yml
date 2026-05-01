@@ -13,11 +13,5 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Send webhook
-        run: |
-          content=$(cat message.txt)
-
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d "{\"content\": \"$content\"}" \
-          ${{ secrets.WEBHOOK_URL }}
+     - name: Discord Notification
+  uses: tenzin1308/discord-notification@v1.0.0
