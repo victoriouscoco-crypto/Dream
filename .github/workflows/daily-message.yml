@@ -1,8 +1,8 @@
-name: Daily Webhook Post
+name: Daily Discord Post
 
 on:
-  schedule:
-    - cron: '0 9 * * *'  
+ schedule:
+  - cron: '*/1 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -13,11 +13,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Send webhook message
+      - name: Send webhook
         run: |
           content=$(cat message.txt)
 
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\": \"${content}\"}" \
-          ${{ secrets.TEST }}
+          -d "{\"content\": \"$content\"}" \
+          ${{ secrets.WEBHOOK_URL }}
