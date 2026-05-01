@@ -2,8 +2,8 @@ name: Daily Discord Post
 
 on:
   schedule:
-    - cron: '*/1 * * * *'  # TEST MODE: every 2 minutes
-  workflow_dispatch:
+    - cron: '0 9 * * *'   
+  workflow_dispatch:       # manual test button
 
 jobs:
   send:
@@ -11,7 +11,18 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-     - name: Discord Notification
-  uses: tenzin1308/discord-notification@v1.0.0
+      - name: Read message
+        id: msg
+        run: |
+          echo "content<<EOF" >> $GITHUB_OUTPUT
+          cat message.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Send to Discord webhook
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\": \"${{ steps.msg.outputs.content }}\"}" \
+          ${{ secrets.WEBHOOK_URL }}
